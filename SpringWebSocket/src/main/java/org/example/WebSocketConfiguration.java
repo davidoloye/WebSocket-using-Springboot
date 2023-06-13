@@ -1,5 +1,6 @@
 package org.example;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.messaging.handler.invocation.HandlerMethodArgumentResolver;
@@ -13,51 +14,44 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 
 import java.util.List;
 
-@Configuration
+@ComponentScan
 @EnableWebSocketMessageBroker
-public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
+public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer  {
+
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
-        stompEndpointRegistry.addEndpoint("/stomp-endpoint")
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/stomp-endpoint")
                 .withSockJS();
     }
 
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry messageBrokerRegistry) {
-        messageBrokerRegistry.enableSimpleBroker("/topic");
-        messageBrokerRegistry.setApplicationDestinationPrefixes("/app");
-    }
-
-    @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration webSocketTransportRegistration) {
 
     }
 
-    @Override
     public void configureClientInboundChannel(ChannelRegistration channelRegistration) {
 
     }
 
-    @Override
     public void configureClientOutboundChannel(ChannelRegistration channelRegistration) {
 
     }
 
-    @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> list) {
 
     }
 
-    @Override
     public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> list) {
 
     }
 
-    @Override
     public boolean configureMessageConverters(List<MessageConverter> list) {
         return false;
     }
 
-
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/topic");
+        registry.setApplicationDestinationPrefixes("/app");
+    }
 }
